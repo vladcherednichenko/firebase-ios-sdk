@@ -70,8 +70,8 @@ let package = Package(
       targets: ["FirebaseStorageCombineSwift"]
     ),
     .library(
-      name: "FirebaseCore",
-      targets: ["FirebaseCore"]
+      name: "FirebaseCoreNew",
+      targets: ["FirebaseCoreNew"]
     ),
     .library(
       name: "FirebaseCrashlytics",
@@ -180,14 +180,14 @@ let package = Package(
       publicHeadersPath: "./"
     ),
     .target(
-      name: "FirebaseCore",
+      name: "FirebaseCoreNew",
       dependencies: [
         "Firebase",
-        "FirebaseCoreInternal",
+        "FirebaseCoreNewInternal",
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
         .product(name: "GULLogger", package: "GoogleUtilities"),
       ],
-      path: "FirebaseCore/Sources",
+      path: "FirebaseCoreNew/Sources",
       resources: [.process("Resources/PrivacyInfo.xcprivacy")],
       publicHeadersPath: "Public",
       cSettings: [
@@ -203,11 +203,11 @@ let package = Package(
     .testTarget(
       name: "CoreUnit",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "SharedTestUtilities",
         .product(name: "OCMock", package: "ocmock"),
       ],
-      path: "FirebaseCore/Tests/Unit",
+      path: "FirebaseCoreNew/Tests/Unit",
       exclude: ["Resources/GoogleService-Info.plist"],
       cSettings: [
         .headerSearchPath("../../.."),
@@ -216,12 +216,12 @@ let package = Package(
 
     // MARK: - Firebase Core Extension
 
-    // Extension of FirebaseCore for consuming by Swift product SDKs.
-    // When depending on `FirebaseCoreExtension`, also depend on `FirebaseCore`
+    // Extension of FirebaseCoreNew for consuming by Swift product SDKs.
+    // When depending on `FirebaseCoreNewExtension`, also depend on `FirebaseCoreNew`
     // to avoid potential linker issues.
     .target(
-      name: "FirebaseCoreExtension",
-      path: "FirebaseCore/Extension",
+      name: "FirebaseCoreNewExtension",
+      path: "FirebaseCoreNew/Extension",
       resources: [.process("Resources/PrivacyInfo.xcprivacy")],
       publicHeadersPath: ".",
       cSettings: [
@@ -231,26 +231,26 @@ let package = Package(
 
     // MARK: - Firebase Core Internal
 
-    // Shared collection of APIs for internal FirebaseCore usage.
+    // Shared collection of APIs for internal FirebaseCoreNew usage.
     .target(
-      name: "FirebaseCoreInternal",
+      name: "FirebaseCoreNewInternal",
       dependencies: [
         .product(name: "GULNSData", package: "GoogleUtilities"),
       ],
-      path: "FirebaseCore/Internal/Sources",
+      path: "FirebaseCoreNew/Internal/Sources",
       resources: [.process("Resources/PrivacyInfo.xcprivacy")]
     ),
     .testTarget(
-      name: "FirebaseCoreInternalTests",
+      name: "FirebaseCoreNewInternalTests",
       dependencies: [
-        "FirebaseCoreInternal",
+        "FirebaseCoreNewInternal",
       ],
-      path: "FirebaseCore/Internal/Tests"
+      path: "FirebaseCoreNew/Internal/Tests"
     ),
 
     .target(
       name: "FirebaseABTesting",
-      dependencies: ["FirebaseCore"],
+      dependencies: ["FirebaseCoreNew"],
       path: "FirebaseABTesting/Sources",
       resources: [.process("Resources/PrivacyInfo.xcprivacy")],
       publicHeadersPath: "Public",
@@ -285,7 +285,7 @@ let package = Package(
         .product(name: "GoogleAppMeasurement",
                  package: "GoogleAppMeasurement",
                  condition: .when(platforms: [.iOS, .macCatalyst, .macOS, .tvOS])),
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         .product(name: "GULAppDelegateSwizzler", package: "GoogleUtilities"),
         .product(name: "GULMethodSwizzler", package: "GoogleUtilities"),
@@ -333,7 +333,7 @@ let package = Package(
         .product(name: "GoogleAppMeasurementWithoutAdIdSupport",
                  package: "GoogleAppMeasurement",
                  condition: .when(platforms: [.iOS, .macCatalyst, .macOS, .tvOS])),
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         .product(name: "GULAppDelegateSwizzler", package: "GoogleUtilities"),
         .product(name: "GULMethodSwizzler", package: "GoogleUtilities"),
@@ -372,7 +372,7 @@ let package = Package(
     .target(
       name: "FirebaseAppDistribution",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         .product(name: "GULAppDelegateSwizzler", package: "GoogleUtilities"),
         .product(name: "GULUserDefaults", package: "GoogleUtilities"),
@@ -408,8 +408,8 @@ let package = Package(
         "FirebaseAppCheckInterop",
         "FirebaseAuthInterop",
         "FirebaseAuthInternal",
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
         .product(name: "GULAppDelegateSwizzler", package: "GoogleUtilities"),
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
         .product(name: "GTMSessionFetcherCore", package: "gtm-session-fetcher"),
@@ -489,7 +489,7 @@ let package = Package(
     .target(
       name: "FirebaseCrashlytics",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         "FirebaseSessions",
         "FirebaseRemoteConfigInterop",
@@ -579,7 +579,7 @@ let package = Package(
       name: "FirebaseDatabaseInternal",
       dependencies: [
         "FirebaseAppCheckInterop",
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "leveldb",
         .product(name: "GULUserDefaults", package: "GoogleUtilities"),
       ],
@@ -652,7 +652,7 @@ let package = Package(
 
     .target(
       name: "FirebaseDynamicLinks",
-      dependencies: ["FirebaseCore"],
+      dependencies: ["FirebaseCoreNew"],
       path: "FirebaseDynamicLinks/Sources",
       resources: [.process("Resources/PrivacyInfo.xcprivacy")],
       publicHeadersPath: "Public",
@@ -675,8 +675,8 @@ let package = Package(
       dependencies: [
         "FirebaseAppCheckInterop",
         "FirebaseAuthInterop",
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
         "FirebaseMessagingInterop",
         "FirebaseSharedSwift",
         .product(name: "GTMSessionFetcherCore", package: "gtm-session-fetcher"),
@@ -739,7 +739,7 @@ let package = Package(
     .target(
       name: "FirebaseInAppMessagingInternal",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         "FirebaseABTesting",
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
@@ -776,7 +776,7 @@ let package = Package(
     .target(
       name: "FirebaseInstallations",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         .product(name: "FBLPromises", package: "Promises"),
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
         .product(name: "GULUserDefaults", package: "GoogleUtilities"),
@@ -795,8 +795,8 @@ let package = Package(
     .target(
       name: "FirebaseMLModelDownloader",
       dependencies: [
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
         "FirebaseInstallations",
         .product(name: "GoogleDataTransport", package: "GoogleDataTransport"),
         .product(name: "GULUserDefaults", package: "GoogleUtilities"),
@@ -819,7 +819,7 @@ let package = Package(
     .target(
       name: "FirebaseMessaging",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         .product(name: "GULAppDelegateSwizzler", package: "GoogleUtilities"),
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
@@ -875,7 +875,7 @@ let package = Package(
     .target(
       name: "FirebasePerformance",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
         // Performance depends on the Obj-C target of FirebaseRemoteConfig to
         // avoid including Swift code from the `FirebaseRemoteConfig` target
@@ -926,7 +926,7 @@ let package = Package(
 
     .target(
       name: "SharedTestUtilities",
-      dependencies: ["FirebaseCore",
+      dependencies: ["FirebaseCoreNew",
                      "FirebaseAppCheckInterop",
                      "FirebaseAuthInterop",
                      "FirebaseMessagingInterop",
@@ -944,7 +944,7 @@ let package = Package(
     .target(
       name: "FirebaseRemoteConfigInternal",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseABTesting",
         "FirebaseInstallations",
         "FirebaseRemoteConfigInterop",
@@ -1035,9 +1035,9 @@ let package = Package(
     .target(
       name: "FirebaseSessions",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseInstallations",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNewExtension",
         "FirebaseSessionsObjC",
         .product(name: "Promises", package: "Promises"),
         .product(name: "GoogleDataTransport", package: "GoogleDataTransport"),
@@ -1067,8 +1067,8 @@ let package = Package(
     .target(
       name: "FirebaseSessionsObjC",
       dependencies: [
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
         .product(name: "nanopb", package: "nanopb"),
       ],
@@ -1111,8 +1111,8 @@ let package = Package(
       dependencies: [
         "FirebaseAppCheckInterop",
         "FirebaseAuthInterop",
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
         .product(name: "GTMSessionFetcherCore", package: "gtm-session-fetcher"),
         .product(name: "GULEnvironment", package: "GoogleUtilities"),
       ],
@@ -1156,7 +1156,7 @@ let package = Package(
         "FirebaseFunctionsCombineSwift",
         "FirebaseStorageCombineSwift",
         "FirebaseCrashlytics",
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseDatabase",
         "FirebaseDynamicLinks",
         "FirebaseFirestoreTarget",
@@ -1192,7 +1192,7 @@ let package = Package(
         .target(name: "FirebaseAppDistribution",
                 condition: .when(platforms: [.iOS])),
         "FirebaseCrashlytics",
-        "FirebaseCore",
+        "FirebaseCoreNew",
         "FirebaseDatabase",
         "FirebaseDynamicLinks",
         "FirebaseFirestoreTarget",
@@ -1211,7 +1211,7 @@ let package = Package(
     .testTarget(
       name: "version-test",
       dependencies: [
-        "FirebaseCore",
+        "FirebaseCoreNew",
       ],
       path: "SwiftPMTests/version-test",
       cSettings: [
@@ -1224,7 +1224,7 @@ let package = Package(
     .target(name: "FirebaseAppCheck",
             dependencies: [
               "FirebaseAppCheckInterop",
-              "FirebaseCore",
+              "FirebaseCoreNew",
               .product(name: "AppCheckCore", package: "app-check"),
               .product(name: "GULEnvironment", package: "GoogleUtilities"),
               .product(name: "GULUserDefaults", package: "GoogleUtilities"),
@@ -1303,8 +1303,8 @@ let package = Package(
       dependencies: [
         "FirebaseAppCheckInterop",
         "FirebaseAuthInterop",
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
       ],
       path: "FirebaseVertexAI/Sources"
     ),
@@ -1399,7 +1399,7 @@ func firestoreTargets() -> [Target] {
         name: "FirebaseFirestoreInternalWrapper",
         dependencies: [
           "FirebaseAppCheckInterop",
-          "FirebaseCore",
+          "FirebaseCoreNew",
           "leveldb",
           .product(name: "nanopb", package: "nanopb"),
           .product(name: "abseil", package: "abseil-cpp-SwiftPM"),
@@ -1465,8 +1465,8 @@ func firestoreTargets() -> [Target] {
       .target(
         name: "FirebaseFirestore",
         dependencies: [
-          "FirebaseCore",
-          "FirebaseCoreExtension",
+          "FirebaseCoreNew",
+          "FirebaseCoreNewExtension",
           "FirebaseFirestoreInternalWrapper",
           "FirebaseSharedSwift",
         ],
@@ -1531,8 +1531,8 @@ func firestoreTargets() -> [Target] {
         ),
         .product(name: "nanopb", package: "nanopb"),
         "FirebaseAppCheckInterop",
-        "FirebaseCore",
-        "FirebaseCoreExtension",
+        "FirebaseCoreNew",
+        "FirebaseCoreNewExtension",
         "leveldb",
         "FirebaseSharedSwift",
       ],
